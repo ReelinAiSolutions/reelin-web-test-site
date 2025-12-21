@@ -30,9 +30,9 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variants = {
-    primary: "bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 shadow-lg",
-    secondary: "bg-zinc-100 text-black hover:bg-zinc-200 dark:bg-zinc-800 dark:text-white border border-zinc-200 dark:border-zinc-700",
-    ghost: "bg-transparent text-black dark:text-white"
+    primary: "bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(99,102,241,0.2)] hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.3)] border border-indigo-500/20",
+    secondary: "bg-zinc-100 text-black hover:bg-zinc-200 dark:bg-zinc-800 dark:text-white border border-zinc-200 dark:border-zinc-700 shadow-[0_0_15px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_0_25px_-5px_rgba(99,102,241,0.1)] hover:border-indigo-500/20",
+    ghost: "bg-transparent text-black dark:text-white hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 hover:shadow-[0_0_20px_-5px_rgba(99,102,241,0.1)] transition-all"
   };
 
   const combinedClasses = `${baseStyles} ${sizes[size]} ${variants[variant]} ${className}`;

@@ -95,6 +95,7 @@ const VisualLevel3 = () => (
 
 export const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [highlightStage, setHighlightStage] = useState(0);
 
   useEffect(() => {
     document.title = "Reelin — Turn Struggles into Systems";
@@ -105,6 +106,38 @@ export const Home: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Opening highlight animation
+  useEffect(() => {
+    const hasSeenAnimation = sessionStorage.getItem('heroAnimationSeen');
+    if (hasSeenAnimation) {
+      setHighlightStage(3); // Skip to final state
+      return;
+    }
+
+    const timings = [
+      1000,  // Stage 0: Initial delay
+      1200,  // Stage 1: Highlight "Reelin"
+      1000,  // Stage 2: Highlight "AI"
+      800,   // Stage 3: Fade to normal (final state)
+    ];
+
+    let currentStage = 0;
+    const runAnimation = () => {
+      if (currentStage < timings.length) {
+        setTimeout(() => {
+          currentStage++;
+          setHighlightStage(currentStage);
+          if (currentStage === 3) {
+            sessionStorage.setItem('heroAnimationSeen', 'true');
+          }
+          runAnimation();
+        }, timings[currentStage]);
+      }
+    };
+
+    runAnimation();
   }, []);
 
   return (
@@ -135,19 +168,48 @@ export const Home: React.FC = () => {
           />
         </div>
 
+
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8">
 
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight fade-in-up delay-100 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 transition-all duration-300 pointer-events-none">
-            {TAGLINE_MAIN}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight fade-in-up delay-100 transition-all duration-300 pointer-events-none overflow-visible py-2">
+            <span className="block mb-4 md:mb-6">
+              <span
+                className={`inline-block px-1 overflow-visible py-1 transition-all duration-700 ${highlightStage >= 1
+                  ? 'text-blue-500 dark:text-blue-400'
+                  : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+                  }`}
+              >
+                Reelin
+              </span>
+            </span>
+            <span className="block leading-tight text-4xl md:text-5xl lg:text-6xl px-2 overflow-visible py-2">
+              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 select-none overflow-visible py-1">
+                Custom Built{' '}
+              </span>
+              <span
+                className={`inline-block px-1 transition-all duration-700 text-5xl md:text-6xl lg:text-7xl ${highlightStage >= 2
+                  ? 'text-blue-500 dark:text-blue-400'
+                  : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+                  } select-none overflow-visible py-1`}
+              >
+                AI
+              </span>
+              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
+                {' '}Systems
+              </span>
+              <br />
+              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible pt-2 pb-4">
+                for Your Business
+              </span>
+            </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-light tracking-wide max-w-2xl mx-auto fade-in-up delay-200 transition-colors pointer-events-none">
+          <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-light tracking-wide max-w-2xl mx-auto fade-in-up delay-200 transition-colors pointer-events-none">
             {TAGLINE_SECONDARY}
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-8 delay-300 relative z-30">
-            <Button size="lg" withIcon to="/contact" className="z-20 relative">Initialize System</Button>
-            <Button variant="ghost" to="/services" className="z-20 relative">Explore Systems</Button>
+            <Button size="lg" to="/services" className="px-12 py-5 text-lg min-w-[200px] z-[60] relative pointer-events-auto">Explore Systems</Button>
           </div>
         </div>
       </section>
@@ -158,14 +220,12 @@ export const Home: React.FC = () => {
           <ScrollReveal>
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-8 leading-tight text-black dark:text-white transition-colors">
               The future belongs to the automated.<br />
-              <span className="text-blue-500/80 dark:text-blue-400/80">Empower your team to focus on what matters.</span>
+              <span className="text-blue-500/80 dark:text-blue-400/80 inline-block px-1 overflow-visible py-1">Reel-in a competitive edge ordinary AI tools can’t match.</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={150}>
             <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-light transition-colors">
-              The opportunity is immense. Automation isn't just about speed; it's about liberation.
-              We deploy self-sustaining architectures that free your potential, allowing you to
-              focus on creativity, strategy, and growth.
+              At Reelin, we design purpose-built AI architectures that adapt, learn, and scale with your operation — freeing your team to focus on what actually moves the business forward.
             </p>
           </ScrollReveal>
         </div>
@@ -177,9 +237,8 @@ export const Home: React.FC = () => {
           <ScrollReveal>
             <div className="mb-16 text-center md:text-left md:flex justify-between items-end">
               <div>
-                <h3 className="text-sm font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 transition-colors">The Trajectory</h3>
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-black dark:text-white transition-colors">Turn Your Struggles into Systems.</h2>
-                <p className="mt-4 text-zinc-500 dark:text-zinc-400 max-w-lg">Technology advances daily. Evolve your infrastructure to match. Choose your trajectory.</p>
+                <p className="mt-4 text-zinc-500 dark:text-zinc-400 max-w-lg">Technology advances daily. Evolve your infrastructure to match.</p>
               </div>
               <div className="mt-6 md:mt-0">
                 <Button variant="secondary" size="sm" withIcon to="/services" className="z-20 relative">Compare Tiers</Button>
@@ -230,7 +289,7 @@ export const Home: React.FC = () => {
 
             {/* Level 3: Full Stack Intelligence */}
             <ScrollReveal className="h-full" delay={200}>
-              <div className="relative h-full p-10 rounded-[2rem] bg-zinc-900 text-white dark:bg-black border border-transparent dark:border-zinc-800 flex flex-col overflow-hidden group shadow-2xl">
+              <div className="relative h-full p-10 rounded-[2rem] bg-zinc-900 text-white dark:bg-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden group shadow-2xl">
                 <VisualLevel3 />
 
                 <div className="relative z-10 pointer-events-none">
@@ -273,19 +332,19 @@ export const Home: React.FC = () => {
 
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <ScrollReveal>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white">
-              Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">upgrade?</span>
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white overflow-visible py-2">
+              Ready to <span className="inline-block px-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 overflow-visible py-1">upgrade?</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto font-light">
-              The algorithm learns and grows. Let's build a system that grows with it.
+              From tools to systems — AI designed to evolve with your business.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={200}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-20">
-              <Button size="lg" to="/contact" className="px-12 py-5 text-lg min-w-[200px] shadow-[0_0_30px_-5px_rgba(99,102,241,0.4)] hover:shadow-[0_0_50px_-5px_rgba(99,102,241,0.6)] border border-indigo-500/30 z-20 relative">Initialize Project</Button>
-              <Button variant="secondary" size="lg" to="/services" className="px-12 py-5 text-lg min-w-[200px] bg-white/5 border-white/10 text-white hover:bg-white/10 dark:bg-white/5 dark:text-white dark:border-white/10 dark:hover:bg-white/10 z-20 relative">View Roadmap</Button>
+              <Button size="lg" to="/services" className="px-12 py-5 text-lg min-w-[200px]">Explore Systems</Button>
+              <Button variant="secondary" size="lg" to="/book" className="px-12 py-5 text-lg min-w-[200px]">Start the Upgrade</Button>
             </div>
           </ScrollReveal>
         </div>
