@@ -1,15 +1,14 @@
 import { NavLink, ServiceItem, ServiceTier, Testimonial } from './types';
 
 export const COMPANY_NAME = "Reelin";
-export const TAGLINE_MAIN = "Reelin in the Unlimited Nature of AI.";
-export const TAGLINE_SECONDARY = "Turning potential into precision.";
+export const TAGLINE_MAIN = "Reelin. Business Systems Reimagined with AI";
+export const TAGLINE_SECONDARY = "";
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
   { label: "About", path: "/about" },
   { label: "Book Now", path: "/book" },
-  { label: "Contact", path: "/contact" },
 ];
 
 export const SERVICE_TIERS: ServiceTier[] = [
@@ -19,30 +18,27 @@ export const SERVICE_TIERS: ServiceTier[] = [
     title: "Foundation",
     subtitle: "The Baseline",
     description: "Designed for simple, service-based businesses that need a professional online presence, automated booking, and never want to miss a customer inquiry.",
-    longDescription: "The Foundation tier is the digital bedrock for modern service providers. In an era where 60% of bookings happen outside business hours, relying on manual phone tag is a liability. We deploy a 'always-on' reception infrastructure that captures traffic, answers basic queries, and secures appointments automatically. This isn't just a website; it's a 24/7 capture engine.",
+    longDescription: "The Foundation tier establishes the core digital system that supports day-to-day operations for service businesses. It provides a consistent structure for handling your online presence, basic client interactions, and appointment booking.\n\nRather than a standalone website, Foundation functions as a practical intake and reception system — keeping your business accessible and organized with minimal manual involvement.",
     features: [
       "Professional website",
       "Online appointment booking",
       "AI phone & chat booking",
       "Automated confirmations & reminders",
-      "Basic customer data organization"
+      "Basic customer data organization",
+      "Service & staff performance insights"
     ],
     detailedCapabilities: [
       {
-        title: "Autonomous Booking Engine",
-        description: "Your calendar fills itself. We integrate booking directly into your site and social channels, synced in real-time to prevent double-booking."
+        title: "Digital Presence",
+        description: "A high-performance website with embedded client capture systems designed to establish your brand and convert visitors into clients with minimal friction."
       },
       {
-        title: "AI Receptionist (Chat & Voice)",
-        description: "An intelligent agent that answers calls and chats, answers FAQs, and guides users to book, ensuring you never miss a lead while you work."
+        title: "Appointment Booking System",
+        description: "An intuitive appointment booking system that allows clients to book easily while giving businesses a clear, organized way to manage client relationship, basic sales data, schedules and staff."
       },
       {
-        title: "No-Show Protection",
-        description: "Automated SMS and email sequences remind clients of their appointments, significantly reducing lost revenue from no-shows."
-      },
-      {
-        title: "Digital Identity",
-        description: "A high-performance, mobile-optimized website designed to convert visitors into clients with minimal friction."
+        title: "AI Receptionist",
+        description: "An intelligent agent that handles calls and chats, answers FAQs, and secures appointments 24/7, ensuring you never miss a lead."
       }
     ],
     bestFor: [
@@ -50,10 +46,8 @@ export const SERVICE_TIERS: ServiceTier[] = [
       "Hair salons",
       "Nail salons",
       "Lash & brow studios",
-      "Massage therapists",
       "Fitness trainers"
     ],
-    outcome: "Capture leads automatically and start booking customers."
   },
   {
     id: "growth",
@@ -66,7 +60,6 @@ export const SERVICE_TIERS: ServiceTier[] = [
       "Everything in Foundation",
       "Advanced lead tracking automation",
       "Conversion & performance analytics",
-      "Service & staff performance insights",
       "SEO & optimization tools"
     ],
     detailedCapabilities: [

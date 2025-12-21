@@ -6,7 +6,6 @@ import { Home } from './pages/Home';
 import { Services } from './pages/Services';
 import { ServiceDetail } from './pages/ServiceDetail';
 import { About } from './pages/About';
-import { Contact } from './pages/Contact';
 import { Booking } from './pages/Booking';
 import { Chatbot } from './components/Chatbot';
 
@@ -33,7 +32,6 @@ const App: React.FC = () => {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
             <Route path="/book" element={<Booking />} />
           </Routes>
         </main>
