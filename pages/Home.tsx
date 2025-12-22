@@ -91,6 +91,46 @@ const VisualLevel3 = () => (
   </div>
 );
 
+// --- Typewriter Component ---
+const Typewriter: React.FC<{ text: string; start: boolean; speed?: number; delay?: number; className?: string }> = ({
+  text,
+  start,
+  speed = 50,
+  delay = 0,
+  className = ""
+}) => {
+  const [displayText, setDisplayText] = useState("");
+  const [params, setParams] = useState({ index: 0, isComplete: false });
+
+  useEffect(() => {
+    if (!start) return;
+
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setParams(prev => {
+          if (prev.index >= text.length) {
+            clearInterval(interval);
+            return { ...prev, isComplete: true };
+          }
+          setDisplayText(text.slice(0, prev.index + 1));
+          return { ...prev, index: prev.index + 1 };
+        });
+      }, speed);
+      return () => clearInterval(interval);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [start, text, speed, delay]);
+
+  return (
+    <span className={`${className} inline-block`}>
+      {displayText}
+      <span className={`inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle ${params.isComplete ? 'animate-pulse' : 'animate-blink'}`}></span>
+    </span>
+  );
+};
+
+
 // --- Main Component ---
 
 export const Home: React.FC = () => {
@@ -116,10 +156,17 @@ export const Home: React.FC = () => {
       return;
     }
 
+    // Sequence:
+    // Stage 0: "Reelin AI" (Initial)
+    // Stage 1: "Custom Built" Types (Line 2)
+    // Stage 2: "AI" Drops (Line 1 -> Line 2)
+    // Stage 3: "Systems..." Types (Line 2)
+
     const timings = [
-      2000,  // Stage 0: Initial state "Reelin AI" (Wait 2s)
-      2000,  // Stage 1: Reveal Tagline Base (Wait 2s)
-      1000,  // Stage 2: The Swap (Hero AI collapses, Tagline AI expands)
+      1500, // Wait on "Reelin AI"
+      2000, // Typing "Custom Built"
+      1000, // AI Drop Transition
+      3000, // Typing "Systems..."
     ];
 
     let currentStage = 0;
@@ -128,7 +175,6 @@ export const Home: React.FC = () => {
         setTimeout(() => {
           currentStage++;
           setHighlightStage(currentStage);
-          // Final stage is now 3
           if (currentStage === 3) {
             sessionStorage.setItem('heroAnimationSeen', 'true');
           }
@@ -139,6 +185,10 @@ export const Home: React.FC = () => {
 
     runAnimation();
   }, []);
+
+  // Shared Gradient Class
+  const gradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500";
+  const blueGradientClass = "text-blue-500 dark:text-blue-400";
 
   return (
     <div className="bg-white dark:bg-black text-black dark:text-white selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white transition-colors duration-300">
@@ -169,64 +219,60 @@ export const Home: React.FC = () => {
         </div>
 
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-4">
 
-          <h1
-            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1.05] fade-in-up delay-100 transition-all duration-300 pointer-events-none overflow-visible py-4 max-w-7xl mx-auto"
-            style={{ textWrap: 'balance' }}
-          >
-            {/* 1. Reelin */}
-            <span
-              className={`inline-block transition-all duration-700 ${highlightStage >= 3
-                ? 'text-blue-500 dark:text-blue-400'
-                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
-                }`}
-            >
+          {/* Top Line: Reelin [AI] */}
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center gap-4">
+            <span className={`inline-block transition-all duration-700 ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
               Reelin
             </span>
+            {/* Ghost AI - Drops Down */}
+            <span
+              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+                ? 'opacity-0 translate-y-12'
+                : 'opacity-100 translate-y-0'
+                } ${gradientClass}`}
+            >
+              AI
+            </span>
+          </h1>
 
-            {/* 2. Hero "AI" (Collapses at Stage 2) */}
+          {/* Bottom Line: Custom Built [AI] Systems... */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-center gap-x-[0.2em] min-h-[1.2em]">
+            {/* 1. Custom Built */}
+            <div className="inline-flex items-center">
+              {highlightStage >= 1 ? (
+                <Typewriter
+                  text="Custom Built "
+                  start={true}
+                  speed={70}
+                  className={gradientClass}
+                />
+              ) : null}
+            </div>
+
+            {/* 2. Real AI - Drops In */}
             <span
-              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out align-bottom ${highlightStage < 2
-                ? 'max-w-[1.5em] opacity-100'
-                : 'max-w-0 opacity-0 -translate-y-2'
-                }`}
+              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+                ? 'opacity-100 translate-y-0 max-w-[2em]'
+                : 'opacity-0 -translate-y-12 max-w-0'
+                } ${blueGradientClass}`}
             >
-              <span className="inline-block bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500">
-                AI
-              </span>
-            </span>
-            <br />
-            {/* 3. Tagline Base Part 1: "Custom Built" (Reveals at Stage 1) */}
-            <span
-              className={`inline-block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight transition-all duration-1000 ease-out ${highlightStage >= 1 ? 'opacity-100 max-w-[20em] translate-x-0' : 'opacity-0 max-w-0 -translate-x-4 overflow-hidden'
-                } bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 whitespace-nowrap`}
-            >
-              Custom Built&nbsp;
+              AI
             </span>
 
-            {/* 4. Tagline "AI" (Expands at Stage 2) */}
-            <span
-              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out align-bottom ${highlightStage >= 2
-                ? 'max-w-[1.5em] opacity-100'
-                : 'max-w-0 opacity-0'
-                }`}
-            >
-              <span className={`inline-block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight ${highlightStage >= 3
-                ? 'text-blue-500 dark:text-blue-400'
-                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
-                }`}>
-                AI
-              </span>
-            </span>
-
-            {/* 5. Tagline Base Part 2: "Systems for Your Business" (Reveals at Stage 1) */}
-            <span
-              className={`inline-block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight transition-all duration-1000 ease-out ${highlightStage >= 1 ? 'opacity-100 max-w-[40em] translate-x-0' : 'opacity-0 max-w-0 translate-x-4 overflow-hidden'
-                } bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 whitespace-nowrap`}
-            >
-              &nbsp;Systems for Your Business
-            </span>
+            {/* 3. Systems... */}
+            <div className="inline-flex items-center">
+              {highlightStage >= 3 ? (
+                <Typewriter
+                  text=" Systems for Your Business"
+                  start={true}
+                  speed={50}
+                  delay={200}
+                  className={gradientClass}
+                />
+              ) : null}
+            </div>
           </h1>
 
           <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-light tracking-wide max-w-2xl mx-auto fade-in-up delay-200 transition-colors pointer-events-none">
