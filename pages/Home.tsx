@@ -96,7 +96,6 @@ const VisualLevel3 = () => (
 export const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [highlightStage, setHighlightStage] = useState(0);
-  const [showIntroAI, setShowIntroAI] = useState(true);
 
   useEffect(() => {
     document.title = "Reelin — Turn Struggles into Systems";
@@ -109,21 +108,20 @@ export const Home: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Opening highlight animation
+  // Animation Sequence
   useEffect(() => {
     const hasSeenAnimation = sessionStorage.getItem('heroAnimationSeen');
     if (hasSeenAnimation) {
-      setHighlightStage(3);
-      setShowIntroAI(false); // Skip intro text if seen
+      setHighlightStage(5); // Skip to final state
       return;
     }
 
     const timings = [
-      1000,  // Stage 0: Initial delay
-      1200,  // Stage 1: Highlight "Reelin"
-      1500,  // Stage 2: Intro "AI" fades out
-      1000,  // Stage 3: Highlight "AI" in "Custom Built AI"
-      800,   // Stage 4: Final state
+      1000,  // Stage 0: Initial state "Reelin AI"
+      1000,  // Stage 1: Highlight "Reelin" & Hero "AI" Blue
+      1500,  // Stage 2: Reveal Tagline Base "Custom Built ... Systems"
+      1500,  // Stage 3: The Swap (Hero AI collapses, Tagline AI expands)
+      100,   // Stage 4: Finalize
     ];
 
     let currentStage = 0;
@@ -132,12 +130,6 @@ export const Home: React.FC = () => {
         setTimeout(() => {
           currentStage++;
           setHighlightStage(currentStage);
-
-          // Trigger AI removal at specific stage
-          if (currentStage === 2) {
-            setShowIntroAI(false);
-          }
-
           if (currentStage === 4) {
             sessionStorage.setItem('heroAnimationSeen', 'true');
           }
@@ -184,8 +176,9 @@ export const Home: React.FC = () => {
             className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1.05] fade-in-up delay-100 transition-all duration-300 pointer-events-none overflow-visible py-4 max-w-7xl mx-auto"
             style={{ textWrap: 'balance' }}
           >
+            {/* 1. Reelin */}
             <span
-              className={`inline-block px-1 overflow-visible py-1 transition-all duration-700 ${highlightStage >= 1
+              className={`inline-block transition-all duration-700 ${highlightStage >= 1
                 ? 'text-blue-500 dark:text-blue-400'
                 : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
                 }`}
@@ -193,35 +186,51 @@ export const Home: React.FC = () => {
               Reelin
             </span>
 
-            {/* Ephemeral "AI" Text */}
+            {/* 2. Hero "AI" (Collapses at Stage 3) */}
             <span
-              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out ${showIntroAI
-                  ? 'max-w-[0.8em] opacity-100 rotate-0'
-                  : 'max-w-0 opacity-0 -rotate-12 translate-y-4'
+              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out ${highlightStage < 3
+                ? 'max-w-[1.5em] opacity-100'
+                : 'max-w-0 opacity-0 -translate-y-2'
                 }`}
             >
-              <span className={`inline-block px-1 ${highlightStage >= 1
-                  ? 'text-blue-500 dark:text-blue-400'
-                  : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+              <span className={`inline-block ${highlightStage >= 1
+                ? 'text-blue-500 dark:text-blue-400'
+                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+                }`}>
+                AI
+              </span>
+            </span>
+            <br />
+            {/* 3. Tagline Base Part 1: "Custom Built" (Reveals at Stage 2) */}
+            <span
+              className={`inline-block text-4xl md:text-6xl lg:text-7xl transition-all duration-1000 ease-out ${highlightStage >= 2 ? 'opacity-100 max-w-[20em] translate-x-0' : 'opacity-0 max-w-0 -translate-x-4 overflow-hidden'
+                } bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 whitespace-nowrap`}
+            >
+              Custom Built&nbsp;
+
+            </span>
+
+            {/* 4. Tagline "AI" (Expands at Stage 3) */}
+            <span
+              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out ${highlightStage >= 3
+                ? 'max-w-[1.5em] opacity-100'
+                : 'max-w-0 opacity-0'
+                }`}
+            >
+              <span className={`inline-block text-4xl md:text-6xl lg:text-7xl ${highlightStage >= 3 // Highlight immediately when it appears
+                ? 'text-blue-500 dark:text-blue-400'
+                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
                 }`}>
                 AI
               </span>
             </span>
 
-            {' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
-              Custom Built{' '}
-            </span>
+            {/* 5. Tagline Base Part 2: "Systems for Your Business" (Reveals at Stage 2) */}
             <span
-              className={`inline-block px-1 transition-all duration-700 ${highlightStage >= 3
-                ? 'text-blue-500 dark:text-blue-400'
-                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
-                } overflow-visible py-1`}
+              className={`inline-block text-4xl md:text-6xl lg:text-7xl transition-all duration-1000 ease-out ${highlightStage >= 2 ? 'opacity-100 max-w-[40em] translate-x-0' : 'opacity-0 max-w-0 translate-x-4 overflow-hidden'
+                } bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 whitespace-nowrap`}
             >
-              AI
-            </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
-              {' '}Systems for Your Business
+              &nbsp;Systems for Your Business
             </span>
           </h1>
 
