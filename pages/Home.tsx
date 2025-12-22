@@ -96,6 +96,7 @@ const VisualLevel3 = () => (
 export const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [highlightStage, setHighlightStage] = useState(0);
+  const [showIntroAI, setShowIntroAI] = useState(true);
 
   useEffect(() => {
     document.title = "Reelin — Turn Struggles into Systems";
@@ -112,15 +113,17 @@ export const Home: React.FC = () => {
   useEffect(() => {
     const hasSeenAnimation = sessionStorage.getItem('heroAnimationSeen');
     if (hasSeenAnimation) {
-      setHighlightStage(3); // Skip to final state
+      setHighlightStage(3);
+      setShowIntroAI(false); // Skip intro text if seen
       return;
     }
 
     const timings = [
       1000,  // Stage 0: Initial delay
       1200,  // Stage 1: Highlight "Reelin"
-      1000,  // Stage 2: Highlight "AI"
-      800,   // Stage 3: Fade to normal (final state)
+      1500,  // Stage 2: Intro "AI" fades out
+      1000,  // Stage 3: Highlight "AI" in "Custom Built AI"
+      800,   // Stage 4: Final state
     ];
 
     let currentStage = 0;
@@ -129,7 +132,13 @@ export const Home: React.FC = () => {
         setTimeout(() => {
           currentStage++;
           setHighlightStage(currentStage);
-          if (currentStage === 3) {
+
+          // Trigger AI removal at specific stage
+          if (currentStage === 2) {
+            setShowIntroAI(false);
+          }
+
+          if (currentStage === 4) {
             sessionStorage.setItem('heroAnimationSeen', 'true');
           }
           runAnimation();
@@ -171,36 +180,48 @@ export const Home: React.FC = () => {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8">
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight fade-in-up delay-100 transition-all duration-300 pointer-events-none overflow-visible py-2">
-            <span className="block mb-4 md:mb-6">
-              <span
-                className={`inline-block px-1 overflow-visible py-1 transition-all duration-700 ${highlightStage >= 1
-                  ? 'text-blue-500 dark:text-blue-400'
-                  : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
-                  }`}
-              >
-                Reelin
-              </span>
+          <h1
+            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1.05] fade-in-up delay-100 transition-all duration-300 pointer-events-none overflow-visible py-4 max-w-7xl mx-auto"
+            style={{ textWrap: 'balance' }}
+          >
+            <span
+              className={`inline-block px-1 overflow-visible py-1 transition-all duration-700 ${highlightStage >= 1
+                ? 'text-blue-500 dark:text-blue-400'
+                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+                }`}
+            >
+              Reelin
             </span>
-            <span className="block leading-tight text-4xl md:text-5xl lg:text-6xl px-2 overflow-visible py-2">
-              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 select-none overflow-visible py-1">
-                Custom Built{' '}
-              </span>
-              <span
-                className={`inline-block px-1 transition-all duration-700 text-5xl md:text-6xl lg:text-7xl ${highlightStage >= 2
+
+            {/* Ephemeral "AI" Text */}
+            <span
+              className={`inline-block overflow-hidden transition-all duration-1000 ease-in-out ${showIntroAI
+                  ? 'max-w-[0.8em] opacity-100 rotate-0'
+                  : 'max-w-0 opacity-0 -rotate-12 translate-y-4'
+                }`}
+            >
+              <span className={`inline-block px-1 ${highlightStage >= 1
                   ? 'text-blue-500 dark:text-blue-400'
                   : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
-                  } select-none overflow-visible py-1`}
-              >
+                }`}>
                 AI
               </span>
-              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
-                {' '}Systems
-              </span>
-              <br />
-              <span className="inline-block px-1 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible pt-2 pb-4">
-                for Your Business
-              </span>
+            </span>
+
+            {' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
+              Custom Built{' '}
+            </span>
+            <span
+              className={`inline-block px-1 transition-all duration-700 ${highlightStage >= 3
+                ? 'text-blue-500 dark:text-blue-400'
+                : 'bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500'
+                } overflow-visible py-1`}
+            >
+              AI
+            </span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-1">
+              {' '}Systems for Your Business
             </span>
           </h1>
 
@@ -209,7 +230,8 @@ export const Home: React.FC = () => {
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-8 delay-300 relative z-30">
-            <Button size="lg" to="/services" className="px-12 py-5 text-lg min-w-[200px] z-[60] relative pointer-events-auto">Explore Systems</Button>
+            <Button size="lg" to="/book" className="px-12 py-5 text-lg min-w-[200px] z-[60] relative pointer-events-auto">Book Now</Button>
+            <Button variant="secondary" size="lg" to="/services" className="px-12 py-5 text-lg min-w-[200px] z-[60] relative pointer-events-auto">Explore Systems</Button>
           </div>
         </div>
       </section>

@@ -39,6 +39,10 @@ export const SERVICE_TIERS: ServiceTier[] = [
       {
         title: "AI Receptionist",
         description: "An intelligent agent that handles calls and chats, answers FAQs, and secures appointments 24/7, ensuring you never miss a lead."
+      },
+      {
+        title: "Data Organization & Performance",
+        description: "Centralize client records and track service outcomes. Automatically monitor staff performance and revenue metrics in one unified dashboard."
       }
     ],
     bestFor: [
@@ -48,6 +52,7 @@ export const SERVICE_TIERS: ServiceTier[] = [
       "Lash & brow studios",
       "Fitness trainers"
     ],
+    outcome: "Establishes a professional, automated digital foundation."
   },
   {
     id: "growth",

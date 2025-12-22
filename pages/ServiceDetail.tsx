@@ -106,7 +106,7 @@ export const ServiceDetail: React.FC = () => {
 
             {/* Sidebar Column */}
             <div className="lg:col-span-1">
-               <div className={`sticky top-32 p-8 rounded-3xl ${isFullStack ? 'bg-zinc-900 text-white border border-zinc-800' : 'bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800'}`}>
+               <div className={`2xl:sticky 2xl:top-32 p-8 rounded-3xl ${isFullStack ? 'bg-zinc-900 text-white border border-zinc-800' : 'bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800'}`}>
                   {tier.outcome && (
                      <>
                         <h3 className="text-lg font-bold mb-6">Outcome</h3>
