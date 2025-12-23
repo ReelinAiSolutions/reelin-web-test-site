@@ -157,7 +157,7 @@ const ScrambleText: React.FC<{ text: string; start: boolean; speed?: number; del
   }, [start, text, delay]);
 
   return (
-    <span className={`${className} inline-block font-mono tracking-tighter`}>
+    <span className={`${className} inline-block tracking-tighter`}>
       {displayText}
     </span>
   );
