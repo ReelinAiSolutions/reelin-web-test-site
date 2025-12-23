@@ -91,74 +91,31 @@ const VisualLevel3 = () => (
   </div>
 );
 
-// --- Scramble Text Component ---
-const ScrambleText: React.FC<{ text: string; start: boolean; speed?: number; delay?: number; className?: string }> = ({
+// --- Smooth Reveal Component ---
+const SmoothRevealText: React.FC<{ text: string; start: boolean; speed?: number; delay?: number; className?: string }> = ({
   text,
   start,
-  speed = 40,
+  speed = 30,
   delay = 0,
   className = ""
 }) => {
-  const [displayText, setDisplayText] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
-
-  useEffect(() => {
-    if (!start) return;
-
-    let frame = 0;
-    let queue: { from: string; to: string; start: number; end: number; char?: string }[] = [];
-    const chars = "!<>-_\\/[]{}—=+*^?#________";
-
-    // Build queue for each character
-    for (let i = 0; i < text.length; i++) {
-      const from = chars[Math.floor(Math.random() * chars.length)];
-      const to = text[i];
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
-      queue.push({ from, to, start, end });
-    }
-
-    const timeout = setTimeout(() => {
-      const update = () => {
-        let output = "";
-        let complete = 0;
-
-        for (let i = 0; i < queue.length; i++) {
-          let { from, to, start, end, char } = queue[i];
-
-          if (frame >= end) {
-            complete++;
-            output += to;
-          } else if (frame >= start) {
-            if (!char || Math.random() < 0.28) {
-              char = chars[Math.floor(Math.random() * chars.length)];
-              queue[i].char = char;
-            }
-            output += char;
-          } else {
-            output += from;
-          }
-        }
-
-        setDisplayText(output);
-
-        if (complete === queue.length) {
-          setIsComplete(true);
-        } else {
-          frame++;
-          requestAnimationFrame(update);
-        }
-      };
-
-      update();
-    }, delay);
-
-    return () => clearTimeout(timeout);
-  }, [start, text, delay]);
-
   return (
-    <span className={`${className} inline-block tracking-tighter`}>
-      {displayText}
+    <span className={`${className} inline-block whitespace-pre-wrap`}>
+      {text.split('').map((char, i) => (
+        <span
+          key={i}
+          className={`inline-block transition-all duration-700 cubic-bezier(0.2, 0.65, 0.3, 0.9) ${start
+            ? 'opacity-100 blur-0 translate-y-0'
+            : 'opacity-0 blur-sm translate-y-2'
+            }`}
+          style={{
+            transitionDelay: `${delay + i * speed}ms`,
+            transitionTimingFunction: 'cubic-bezier(0.2, 0.65, 0.3, 0.9)'
+          }}
+        >
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
     </span>
   );
 };
@@ -310,10 +267,10 @@ export const Home: React.FC = () => {
             {/* 1. Custom Built */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
-                <ScrambleText
+                <SmoothRevealText
                   text="Custom Built"
                   start={true}
-                  speed={40}
+                  speed={30}
                   className={gradientClass}
                 />
               ) : null}
@@ -337,11 +294,11 @@ export const Home: React.FC = () => {
             {/* 3. Systems... */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
-                <ScrambleText
+                <SmoothRevealText
                   text="Systems for Your Business"
                   start={true}
                   delay={600}
-                  speed={40}
+                  speed={30}
                   className={gradientClass}
                 />
               ) : null}
