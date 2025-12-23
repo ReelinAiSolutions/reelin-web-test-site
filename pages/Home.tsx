@@ -97,7 +97,8 @@ const Typewriter: React.FC<{ text: string; start: boolean; speed?: number; delay
   start,
   speed = 50,
   delay = 0,
-  className = ""
+  className = "",
+  hideCursor = false
 }) => {
   const [displayText, setDisplayText] = useState("");
   const [params, setParams] = useState({ index: 0, isComplete: false });
@@ -125,7 +126,9 @@ const Typewriter: React.FC<{ text: string; start: boolean; speed?: number; delay
   return (
     <span className={`${className} inline-block`}>
       {displayText}
-      <span className={`inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle ${params.isComplete ? 'animate-pulse' : 'animate-blink'}`}></span>
+      {!hideCursor || !params.isComplete ? (
+        <span className={`inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle ${params.isComplete ? 'animate-pulse' : 'animate-blink'}`}></span>
+      ) : null}
     </span>
   );
 };
@@ -158,14 +161,14 @@ export const Home: React.FC = () => {
 
     // Sequence:
     // Stage 0: "Reelin AI" (Initial)
-    // Stage 1: "Custom Built" Types (Line 2)
-    // Stage 2: "AI" Drops (Line 1 -> Line 2) & Flips
-    // Stage 3: Color Change (All turn Blue)
+    // Stage 1: "Custom Built Systems..." Types
+    // Stage 2: "AI" Moves (Reelin AI -> Custom Built AI Systems)
+    // Stage 3: Color Change
 
     const timings = [
       1500, // Wait on "Reelin AI"
-      3500, // Type "Custom Built" AND "Systems..." (Wait for completion)
-      1000, // Move & Flip Duration
+      2500, // Type entire phrase
+      1000, // Move Duration
     ];
 
     let currentStage = 0;
@@ -187,6 +190,7 @@ export const Home: React.FC = () => {
 
   // Shared Gradient Class
   const gradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500";
+  const aiGradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-zinc-600 to-zinc-900 dark:from-white dark:to-zinc-300";
   const blueGradientClass = "text-blue-500 dark:text-blue-400";
 
   return (
@@ -225,12 +229,12 @@ export const Home: React.FC = () => {
             <span className={`inline-block transition-all duration-700 ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
               Reelin
             </span>
-            {/* Ghost AI - Drops Down */}
+            {/* Ghost AI - Moves Down */}
             <span
               className={`inline-block whitespace-nowrap transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
-                ? 'opacity-0 translate-y-12 [transform:rotateX(90deg)] max-w-0 ml-0'
-                : 'opacity-100 translate-y-0 [transform:rotateX(0deg)] max-w-[1.2em] ml-4'
-                } ${gradientClass}`}
+                ? 'opacity-0 translate-y-20 -translate-x-8 scale-50 max-w-0 ml-0'
+                : 'opacity-100 translate-y-0 translate-x-0 scale-100 max-w-[1.2em] ml-4'
+                } ${aiGradientClass}`}
             >
               AI
             </span>
@@ -244,18 +248,19 @@ export const Home: React.FC = () => {
                 <Typewriter
                   text="Custom Built"
                   start={true}
-                  speed={50}
+                  speed={40}
                   className={gradientClass}
+                  hideCursor={highlightStage >= 3}
                 />
               ) : null}
             </div>
 
             {/* 2. Real AI - Drops In */}
             <span
-              className={`inline-block transition-all duration-1000 ease-in-out transform [perspective:1000px] ${highlightStage >= 2
-                ? 'opacity-100 translate-y-0 max-w-[2em] [transform:rotateX(0deg)]'
-                : 'opacity-0 -translate-y-12 max-w-0 [transform:rotateX(-90deg)]'
-                } ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}
+              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+                ? 'opacity-100 translate-y-0 scale-100 max-w-[2em]'
+                : 'opacity-0 -translate-y-20 translate-x-8 scale-150 max-w-0'
+                } ${highlightStage >= 3 ? blueGradientClass : aiGradientClass}`}
             >
               AI
             </span>
@@ -266,9 +271,10 @@ export const Home: React.FC = () => {
                 <Typewriter
                   text="Systems for Your Business"
                   start={true}
-                  speed={50}
-                  delay={750}
+                  speed={40}
+                  delay={600}
                   className={gradientClass}
+                  hideCursor={highlightStage >= 3}
                 />
               ) : null}
             </div>
