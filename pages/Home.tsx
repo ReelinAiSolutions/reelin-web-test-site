@@ -256,10 +256,10 @@ export const Home: React.FC = () => {
             />
             {/* Ghost AI - Flips Out */}
             <span
-              className={`inline-block whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
-                ? 'opacity-0 [transform:rotateX(-90deg)_translateY(2rem)] scale-50 pointer-events-none'
-                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)] scale-100'
-                } ml-4`}
+              className={`inline-block whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center overflow-hidden ${highlightStage >= 2
+                ? 'opacity-0 [transform:rotateX(-90deg)_translateY(2rem)] scale-50 pointer-events-none max-w-0 ml-0'
+                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)] scale-100 max-w-[2em] ml-4'
+                }`}
             >
               <SmoothColorText
                 text="AI"
