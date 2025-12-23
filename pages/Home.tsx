@@ -226,12 +226,12 @@ export const Home: React.FC = () => {
 
           {/* Top Line: Reelin [AI] */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center">
-            <span className={`inline-block transition-all duration-700 ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
+            <span className={`inline-block transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
               Reelin
             </span>
             {/* Ghost AI - Moves Down */}
             <span
-              className={`inline-block whitespace-nowrap transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+              className={`inline-block whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
                 ? 'opacity-0 translate-y-20 -translate-x-8 scale-50 max-w-0 ml-0'
                 : 'opacity-100 translate-y-0 translate-x-0 scale-100 max-w-[1.2em] ml-4'
                 } ${aiGradientClass}`}
@@ -241,7 +241,7 @@ export const Home: React.FC = () => {
           </h1>
 
           {/* Bottom Line: Custom Built [AI] Systems... */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-baseline gap-x-[0.3em] min-h-[1.2em]">
+          <h1 className="text-[2rem] md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-baseline gap-x-[0.3em] gap-y-2 min-h-[1.2em]">
             {/* 1. Custom Built */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
@@ -257,7 +257,7 @@ export const Home: React.FC = () => {
 
             {/* 2. Real AI - Drops In */}
             <span
-              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+              className={`inline-block transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
                 ? 'opacity-100 translate-y-0 scale-100 max-w-[2em]'
                 : 'opacity-0 -translate-y-20 translate-x-8 scale-150 max-w-0'
                 } ${highlightStage >= 3 ? blueGradientClass : aiGradientClass}`}
