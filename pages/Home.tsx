@@ -289,7 +289,7 @@ export const Home: React.FC = () => {
 
             {/* 2. Real AI - Flips In */}
             <span
-              className={`inline-block transition-all duration-700 delay-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
+              className={`inline-block transition-all duration-700 delay-[900ms] ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
                 ? 'opacity-100 [transform:rotateX(0deg)_translateY(0)] max-w-[2em]'
                 : 'opacity-0 [transform:rotateX(90deg)_translateY(-2rem)] max-w-0'
                 }`}
