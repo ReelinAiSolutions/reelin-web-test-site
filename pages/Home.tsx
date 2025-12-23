@@ -249,19 +249,19 @@ export const Home: React.FC = () => {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-4">
 
           {/* Top Line: Reelin [AI] */}
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center perspective-[1000px]">
             <SmoothColorText
               text="Reelin"
               isBlue={highlightStage >= 3}
               baseClass={gradientClass}
               blueClass={blueGradientClass}
             />
-            {/* Ghost AI - Moves Down */}
+            {/* Ghost AI - Flips Out */}
             <span
-              className={`inline-block whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
-                ? 'opacity-0 translate-y-20 -translate-x-8 scale-50 max-w-0 ml-0'
-                : 'opacity-100 translate-y-0 translate-x-0 scale-100 max-w-[1.2em] ml-4'
-                }`}
+              className={`inline-block whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] transform-style-3d origin-center ${highlightStage >= 2
+                ? 'opacity-0 -rotate-x-90 translate-y-8 pointer-events-none'
+                : 'opacity-100 rotate-x-0 translate-y-0'
+                } ml-4`}
             >
               <SmoothColorText
                 text="AI"
@@ -273,7 +273,7 @@ export const Home: React.FC = () => {
           </h1>
 
           {/* Bottom Line: Custom Built [AI] Systems... */}
-          <h1 className="text-[2rem] md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-baseline gap-x-[0.3em] gap-y-2 min-h-[1.2em]">
+          <h1 className="text-[2rem] md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight md:leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-baseline gap-x-[0.3em] gap-y-2 min-h-[1.2em] perspective-[1000px]">
             {/* 1. Custom Built */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
@@ -287,11 +287,11 @@ export const Home: React.FC = () => {
               ) : null}
             </div>
 
-            {/* 2. Real AI - Drops In */}
+            {/* 2. Real AI - Flips In */}
             <span
-              className={`inline-block transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
-                ? 'opacity-100 translate-y-0 scale-100 max-w-[2em]'
-                : 'opacity-0 -translate-y-20 translate-x-8 scale-150 max-w-0'
+              className={`inline-block transition-all duration-700 delay-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] transform-style-3d origin-center ${highlightStage >= 2
+                ? 'opacity-100 rotate-x-0 translate-y-0 max-w-[2em]'
+                : 'opacity-0 rotate-x-90 -translate-y-8 max-w-0'
                 }`}
             >
               <SmoothColorText
