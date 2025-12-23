@@ -189,7 +189,7 @@ export const Home: React.FC = () => {
 
     const timings = [
       1500, // Wait on "Reelin AI"
-      2500, // Type entire phrase
+      2000, // Type entire phrase (Reduced from 2500ms for snappiness)
       1000, // Move Duration
     ];
 
@@ -213,8 +213,6 @@ export const Home: React.FC = () => {
   // Shared Gradient Class
   const gradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500";
   const aiGradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-zinc-600 to-zinc-900 dark:from-white dark:to-zinc-300";
-  // UPDATED: Make blue class also a gradient-like text for consistent rendering, or just standard text.
-  // Using standard text for blue is fine with cross-fade.
   const blueGradientClass = "text-blue-500 dark:text-blue-400";
 
   return (
@@ -259,8 +257,8 @@ export const Home: React.FC = () => {
             {/* Ghost AI - Flips Out */}
             <span
               className={`inline-block whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
-                ? 'opacity-0 [transform:rotateX(-90deg)_translateY(2rem)] pointer-events-none'
-                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)]'
+                ? 'opacity-0 [transform:rotateX(-90deg)_translateY(2rem)] scale-50 pointer-events-none'
+                : 'opacity-100 [transform:rotateX(0deg)_translateY(0)] scale-100'
                 } ml-4`}
             >
               <SmoothColorText
@@ -289,9 +287,9 @@ export const Home: React.FC = () => {
 
             {/* 2. Real AI - Flips In */}
             <span
-              className={`inline-block transition-all duration-700 delay-[900ms] ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
-                ? 'opacity-100 [transform:rotateX(0deg)_translateY(0)] max-w-[2em]'
-                : 'opacity-0 [transform:rotateX(90deg)_translateY(-2rem)] max-w-0'
+              className={`inline-block transition-all duration-700 delay-[200ms] ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
+                ? 'opacity-100 [transform:rotateX(0deg)_translateY(0)] max-w-[2em] scale-100'
+                : 'opacity-0 [transform:rotateX(90deg)_translateY(-2rem)] max-w-0 scale-150'
                 }`}
             >
               <SmoothColorText
