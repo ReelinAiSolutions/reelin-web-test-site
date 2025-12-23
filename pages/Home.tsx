@@ -91,52 +91,82 @@ const VisualLevel3 = () => (
   </div>
 );
 
-// --- Typewriter Component ---
-const Typewriter: React.FC<{ text: string; start: boolean; speed?: number; delay?: number; className?: string }> = ({
+// --- Scramble Text Component ---
+const ScrambleText: React.FC<{ text: string; start: boolean; speed?: number; delay?: number; className?: string }> = ({
   text,
   start,
-  speed = 50,
+  speed = 40,
   delay = 0,
-  className = "",
-  hideCursor = false
+  className = ""
 }) => {
   const [displayText, setDisplayText] = useState("");
-  const [params, setParams] = useState({ index: 0, isComplete: false });
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     if (!start) return;
 
+    let frame = 0;
+    let queue: { from: string; to: string; start: number; end: number; char?: string }[] = [];
+    const chars = "!<>-_\\/[]{}—=+*^?#________";
+
+    // Build queue for each character
+    for (let i = 0; i < text.length; i++) {
+      const from = chars[Math.floor(Math.random() * chars.length)];
+      const to = text[i];
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      queue.push({ from, to, start, end });
+    }
+
     const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        setParams(prev => {
-          if (prev.index >= text.length) {
-            clearInterval(interval);
-            return { ...prev, isComplete: true };
+      const update = () => {
+        let output = "";
+        let complete = 0;
+
+        for (let i = 0; i < queue.length; i++) {
+          let { from, to, start, end, char } = queue[i];
+
+          if (frame >= end) {
+            complete++;
+            output += to;
+          } else if (frame >= start) {
+            if (!char || Math.random() < 0.28) {
+              char = chars[Math.floor(Math.random() * chars.length)];
+              queue[i].char = char;
+            }
+            output += char;
+          } else {
+            output += from;
           }
-          setDisplayText(text.slice(0, prev.index + 1));
-          return { ...prev, index: prev.index + 1 };
-        });
-      }, speed);
-      return () => clearInterval(interval);
+        }
+
+        setDisplayText(output);
+
+        if (complete === queue.length) {
+          setIsComplete(true);
+        } else {
+          frame++;
+          requestAnimationFrame(update);
+        }
+      };
+
+      update();
     }, delay);
 
     return () => clearTimeout(timeout);
-  }, [start, text, speed, delay]);
+  }, [start, text, delay]);
 
   return (
-    <span className={`${className} inline-block`}>
+    <span className={`${className} inline-block font-mono tracking-tighter`}>
       {displayText}
-      {!hideCursor || !params.isComplete ? (
-        <span className={`inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle ${params.isComplete ? 'animate-pulse' : 'animate-blink'}`}></span>
-      ) : null}
     </span>
   );
 };
 
-
 // --- Main Component ---
 
 // --- Smooth Color Text Component ---
+// (No changes here, but kept context for ReplaceFileContent)
 const SmoothColorText: React.FC<{ text: string; isBlue: boolean; baseClass: string; blueClass: string; className?: string }> = ({
   text,
   isBlue,
@@ -189,7 +219,7 @@ export const Home: React.FC = () => {
 
     const timings = [
       1500, // Wait on "Reelin AI"
-      2000, // Type entire phrase (Reduced from 2500ms for snappiness)
+      2000, // Type entire phrase
       1000, // Move Duration
     ];
 
@@ -215,6 +245,11 @@ export const Home: React.FC = () => {
   const aiGradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-zinc-600 to-zinc-900 dark:from-white dark:to-zinc-300";
   const blueGradientClass = "text-blue-500 dark:text-blue-400";
 
+  // Dynamic glow class for the AI element landing
+  const aiGlowClass = highlightStage >= 2 && highlightStage < 3
+    ? "drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] brightness-125 scale-110"
+    : "";
+
   return (
     <div className="bg-white dark:bg-black text-black dark:text-white selection:bg-zinc-200 dark:selection:bg-zinc-800 selection:text-black dark:selection:text-white transition-colors duration-300">
 
@@ -233,7 +268,7 @@ export const Home: React.FC = () => {
             }}
           />
           <div
-            className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-indigo-300/30 dark:bg-indigo-900/5 rounded-full blur-[80px] mix-blend-multiply dark:mix-blend-normal animate-blob delay-200 filter transition-colors duration-1000 pointer-events-none"
+            className={`absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-indigo-300/30 dark:bg-indigo-900/5 rounded-full blur-[80px] mix-blend-multiply dark:mix-blend-normal animate-blob delay-200 filter transition-colors duration-1000 pointer-events-none ${highlightStage >= 2 ? 'scale-110 opacity-70 duration-500' : ''}`}
             style={{
               transform: `translate(0, ${scrollY * 0.1}px)`
             }}
@@ -275,12 +310,11 @@ export const Home: React.FC = () => {
             {/* 1. Custom Built */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
-                <Typewriter
+                <ScrambleText
                   text="Custom Built"
                   start={true}
                   speed={40}
                   className={gradientClass}
-                  hideCursor={highlightStage >= 3}
                 />
               ) : null}
             </div>
@@ -290,7 +324,7 @@ export const Home: React.FC = () => {
               className={`inline-block transition-all duration-700 delay-[200ms] ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] [transform-style:preserve-3d] origin-center ${highlightStage >= 2
                 ? 'opacity-100 [transform:rotateX(0deg)_translateY(0)] max-w-[2em] scale-100'
                 : 'opacity-0 [transform:rotateX(90deg)_translateY(-2rem)] max-w-0 scale-150'
-                }`}
+                } ${aiGlowClass}`}
             >
               <SmoothColorText
                 text="AI"
@@ -303,13 +337,12 @@ export const Home: React.FC = () => {
             {/* 3. Systems... */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
-                <Typewriter
+                <ScrambleText
                   text="Systems for Your Business"
                   start={true}
-                  speed={40}
                   delay={600}
+                  speed={40}
                   className={gradientClass}
-                  hideCursor={highlightStage >= 3}
                 />
               ) : null}
             </div>
