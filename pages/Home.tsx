@@ -104,9 +104,9 @@ const SmoothRevealText: React.FC<{ text: string; start: boolean; speed?: number;
       {text.split('').map((char, i) => (
         <span
           key={i}
-          className={`${className} inline-block transition-all duration-700 cubic-bezier(0.2, 0.65, 0.3, 0.9) ${start
+          className={`${className} inline-block transition-all duration-1000 cubic-bezier(0.2, 0.65, 0.3, 0.9) ${start
             ? 'opacity-100 blur-0 translate-y-0'
-            : 'opacity-0 blur-sm translate-y-2'
+            : 'opacity-0 blur-lg translate-y-4'
             }`}
           style={{
             transitionDelay: `${delay + i * speed}ms`,
