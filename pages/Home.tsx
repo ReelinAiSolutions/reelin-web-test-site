@@ -136,6 +136,28 @@ const Typewriter: React.FC<{ text: string; start: boolean; speed?: number; delay
 
 // --- Main Component ---
 
+// --- Smooth Color Text Component ---
+const SmoothColorText: React.FC<{ text: string; isBlue: boolean; baseClass: string; blueClass: string; className?: string }> = ({
+  text,
+  isBlue,
+  baseClass,
+  blueClass,
+  className = ""
+}) => (
+  <span className={`relative inline-block ${className}`}>
+    {/* Base Layer (Fades Out) */}
+    <span className={`transition-opacity duration-[1500ms] ease-in-out ${isBlue ? 'opacity-0' : 'opacity-100'} ${baseClass}`}>
+      {text}
+    </span>
+    {/* Blue Layer (Fades In) - Absolute overlay */}
+    <span className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out ${isBlue ? 'opacity-100' : 'opacity-0'} ${blueClass}`}>
+      {text}
+    </span>
+  </span>
+);
+
+// --- Main Component ---
+
 export const Home: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [highlightStage, setHighlightStage] = useState(0);
@@ -191,6 +213,8 @@ export const Home: React.FC = () => {
   // Shared Gradient Class
   const gradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500";
   const aiGradientClass = "bg-clip-text text-transparent bg-gradient-to-b from-zinc-600 to-zinc-900 dark:from-white dark:to-zinc-300";
+  // UPDATED: Make blue class also a gradient-like text for consistent rendering, or just standard text.
+  // Using standard text for blue is fine with cross-fade.
   const blueGradientClass = "text-blue-500 dark:text-blue-400";
 
   return (
@@ -226,17 +250,25 @@ export const Home: React.FC = () => {
 
           {/* Top Line: Reelin [AI] */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center">
-            <span className={`inline-block transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
-              Reelin
-            </span>
+            <SmoothColorText
+              text="Reelin"
+              isBlue={highlightStage >= 3}
+              baseClass={gradientClass}
+              blueClass={blueGradientClass}
+            />
             {/* Ghost AI - Moves Down */}
             <span
               className={`inline-block whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
                 ? 'opacity-0 translate-y-20 -translate-x-8 scale-50 max-w-0 ml-0'
                 : 'opacity-100 translate-y-0 translate-x-0 scale-100 max-w-[1.2em] ml-4'
-                } ${aiGradientClass}`}
+                }`}
             >
-              AI
+              <SmoothColorText
+                text="AI"
+                isBlue={highlightStage >= 3}
+                baseClass={aiGradientClass}
+                blueClass={blueGradientClass}
+              />
             </span>
           </h1>
 
@@ -260,9 +292,14 @@ export const Home: React.FC = () => {
               className={`inline-block transition-all duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] transform ${highlightStage >= 2
                 ? 'opacity-100 translate-y-0 scale-100 max-w-[2em]'
                 : 'opacity-0 -translate-y-20 translate-x-8 scale-150 max-w-0'
-                } ${highlightStage >= 3 ? blueGradientClass : aiGradientClass}`}
+                }`}
             >
-              AI
+              <SmoothColorText
+                text="AI"
+                isBlue={highlightStage >= 3}
+                baseClass={aiGradientClass}
+                blueClass={blueGradientClass}
+              />
             </span>
 
             {/* 3. Systems... */}
