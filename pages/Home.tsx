@@ -159,14 +159,13 @@ export const Home: React.FC = () => {
     // Sequence:
     // Stage 0: "Reelin AI" (Initial)
     // Stage 1: "Custom Built" Types (Line 2)
-    // Stage 2: "AI" Drops (Line 1 -> Line 2)
-    // Stage 3: "Systems..." Types (Line 2)
+    // Stage 2: "AI" Drops (Line 1 -> Line 2) & Flips
+    // Stage 3: Color Change (All turn Blue)
 
     const timings = [
       1500, // Wait on "Reelin AI"
-      2000, // Typing "Custom Built"
-      1000, // AI Drop Transition
-      3000, // Typing "Systems..."
+      3500, // Type "Custom Built" AND "Systems..." (Wait for completion)
+      1000, // Move & Flip Duration
     ];
 
     let currentStage = 0;
@@ -222,15 +221,15 @@ export const Home: React.FC = () => {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-4">
 
           {/* Top Line: Reelin [AI] */}
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center gap-4">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex justify-center items-center">
             <span className={`inline-block transition-all duration-700 ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}>
               Reelin
             </span>
             {/* Ghost AI - Drops Down */}
             <span
-              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
-                ? 'opacity-0 translate-y-12'
-                : 'opacity-100 translate-y-0'
+              className={`inline-block whitespace-nowrap transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
+                ? 'opacity-0 translate-y-12 [transform:rotateX(90deg)] max-w-0 ml-0'
+                : 'opacity-100 translate-y-0 [transform:rotateX(0deg)] max-w-[1.2em] ml-4'
                 } ${gradientClass}`}
             >
               AI
@@ -238,14 +237,14 @@ export const Home: React.FC = () => {
           </h1>
 
           {/* Bottom Line: Custom Built [AI] Systems... */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-center gap-x-[0.2em] min-h-[1.2em]">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1] pointer-events-none overflow-visible flex flex-wrap justify-center items-baseline gap-x-[0.3em] min-h-[1.2em]">
             {/* 1. Custom Built */}
             <div className="inline-flex items-center">
               {highlightStage >= 1 ? (
                 <Typewriter
-                  text="Custom Built "
+                  text="Custom Built"
                   start={true}
-                  speed={70}
+                  speed={50}
                   className={gradientClass}
                 />
               ) : null}
@@ -253,22 +252,22 @@ export const Home: React.FC = () => {
 
             {/* 2. Real AI - Drops In */}
             <span
-              className={`inline-block transition-all duration-1000 ease-in-out transform ${highlightStage >= 2
-                ? 'opacity-100 translate-y-0 max-w-[2em]'
-                : 'opacity-0 -translate-y-12 max-w-0'
-                } ${blueGradientClass}`}
+              className={`inline-block transition-all duration-1000 ease-in-out transform [perspective:1000px] ${highlightStage >= 2
+                ? 'opacity-100 translate-y-0 max-w-[2em] [transform:rotateX(0deg)]'
+                : 'opacity-0 -translate-y-12 max-w-0 [transform:rotateX(-90deg)]'
+                } ${highlightStage >= 3 ? blueGradientClass : gradientClass}`}
             >
               AI
             </span>
 
             {/* 3. Systems... */}
             <div className="inline-flex items-center">
-              {highlightStage >= 3 ? (
+              {highlightStage >= 1 ? (
                 <Typewriter
-                  text=" Systems for Your Business"
+                  text="Systems for Your Business"
                   start={true}
                   speed={50}
-                  delay={200}
+                  delay={750}
                   className={gradientClass}
                 />
               ) : null}
