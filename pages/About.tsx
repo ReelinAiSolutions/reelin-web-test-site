@@ -46,19 +46,19 @@ export const About: React.FC = () => {
    }, []);
 
    return (
-      <div className="bg-white dark:bg-black min-h-screen text-black dark:text-white transition-colors duration-300">
+      <div className="bg-transparent min-h-screen text-white">
 
          {/* Hero Section */}
          <section className="pt-40 pb-24 px-6 max-w-7xl mx-auto">
             <div className="max-w-4xl">
                <ScrollReveal>
-                  <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tighter mb-12 bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-2">
+                  <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tighter mb-12 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/60 overflow-visible py-2">
                      <span className="inline-block px-1 overflow-visible py-1">We build systems</span> <br />
-                     <span className="text-blue-500 dark:text-blue-400 inline-block px-1 overflow-visible py-1">that evolve.</span>
+                     <span className="text-blue-500 inline-block px-1 overflow-visible py-1">that evolve.</span>
                   </h1>
                </ScrollReveal>
                <ScrollReveal delay={200}>
-                  <div className="space-y-8 text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-3xl border-l-2 border-blue-500/20 pl-8 transition-colors">
+                  <div className="space-y-8 text-xl md:text-2xl text-zinc-400 font-light leading-relaxed max-w-3xl border-l-2 border-blue-500/20 pl-8">
                      <p>
                         Reelin designs purpose-built AI architectures for businesses that want more than surface-level automation. Our work focuses on building intelligent systems that integrate seamlessly into operations, adapt over time, and create lasting leverage.
                      </p>
@@ -71,15 +71,15 @@ export const About: React.FC = () => {
          </section>
 
          {/* Our Approach */}
-         <section className="py-32 bg-zinc-50 dark:bg-zinc-950/50 border-y border-zinc-100 dark:border-zinc-900 transition-colors duration-300">
+         <section className="py-32 bg-white/5 border-y border-white/10 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto px-6">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                   <ScrollReveal>
-                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Our Approach</h2>
-                     <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed font-light mb-8">
+                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 text-white">Our Approach</h2>
+                     <p className="text-lg md:text-xl text-zinc-400 leading-relaxed font-light mb-8">
                         AI delivers its greatest value when it’s treated as infrastructure, not a feature.
                      </p>
-                     <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed font-light">
+                     <p className="text-lg md:text-xl text-zinc-400 leading-relaxed font-light">
                         At Reelin, we design systems that:
                      </p>
                   </ScrollReveal>
@@ -91,9 +91,9 @@ export const About: React.FC = () => {
                         "Scale without adding complexity"
                      ].map((point, i) => (
                         <ScrollReveal key={i} delay={i * 150}>
-                           <div className="flex items-center gap-4 p-6 bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm transition-all hover:border-blue-500/30">
+                           <div className="flex items-center gap-4 p-6 bg-white/5 border border-white/10 rounded-2xl shadow-sm transition-all hover:bg-white/10">
                               <div className="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-                              <span className="text-lg font-medium">{point}</span>
+                              <span className="text-lg font-medium text-white">{point}</span>
                            </div>
                         </ScrollReveal>
                      ))}
@@ -101,7 +101,7 @@ export const About: React.FC = () => {
                </div>
 
                <ScrollReveal delay={500} className="mt-16 text-center">
-                  <p className="text-xl font-medium text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto italic">
+                  <p className="text-xl font-medium text-zinc-400 max-w-2xl mx-auto italic">
                      "The result is AI that supports teams quietly and reliably, freeing time and attention for higher-value work."
                   </p>
                </ScrollReveal>
@@ -109,13 +109,14 @@ export const About: React.FC = () => {
          </section>
 
          {/* What We Believe */}
-         <section className="py-32 bg-black text-white dark:bg-zinc-900 dark:text-white overflow-hidden relative">
-            <div className="absolute inset-0 bg-grid-white/[0.05] dark:bg-grid-black/[0.1] bg-[size:30px_30px]"></div>
+         <section className="py-32 relative overflow-hidden">
+            <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:30px_30px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#030014] via-transparent to-[#030014]"></div>
             <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
                <ScrollReveal>
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-12">What We Believe</h2>
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-12 text-white">What We Believe</h2>
                   <div className="space-y-12 mb-16">
-                     <div className="space-y-4">
+                     <div className="space-y-4 text-white">
                         <p className="text-2xl md:text-3xl font-light">Technology should reduce friction, not introduce it.</p>
                         <p className="text-2xl md:text-3xl font-light">Automation should create clarity, not noise.</p>
                         <p className="text-2xl md:text-3xl font-light">Systems should compound value, not require constant replacement.</p>
@@ -131,9 +132,9 @@ export const About: React.FC = () => {
          {/* How We Work */}
          <section className="py-32 px-6 max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-24">
-               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">How We Work</h2>
+               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white">How We Work</h2>
                <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
-               <p className="mt-8 text-zinc-600 dark:text-zinc-400 text-lg font-light">Our process is intentionally structured and collaborative.</p>
+               <p className="mt-8 text-zinc-400 text-lg font-light">Our process is intentionally structured and collaborative.</p>
             </ScrollReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -161,14 +162,14 @@ export const About: React.FC = () => {
                ].map((step, i) => (
                   <ScrollReveal key={i} delay={i * 100} className="relative">
                      {i < 3 && (
-                        <div className="hidden lg:block absolute top-8 -right-6 w-12 border-t border-dashed border-zinc-300 dark:border-zinc-800 z-0"></div>
+                        <div className="hidden lg:block absolute top-8 -right-6 w-12 border-t border-dashed border-white/20 z-0"></div>
                      )}
                      <div className="relative z-10 space-y-4">
-                        <div className="text-blue-500 bg-blue-50 dark:bg-blue-900/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                        <div className="text-blue-500 bg-blue-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20">
                            <Icon name={step.icon as any} size={32} />
                         </div>
-                        <h3 className="text-xl font-bold tracking-tight">{step.title}</h3>
-                        <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+                        <h3 className="text-xl font-bold tracking-tight text-white">{step.title}</h3>
+                        <p className="text-zinc-400 text-sm leading-relaxed">
                            {step.desc}
                         </p>
                      </div>
@@ -178,11 +179,11 @@ export const About: React.FC = () => {
          </section>
 
          {/* Who We Work With */}
-         <section className="py-32 bg-zinc-50 dark:bg-zinc-950/50 border-y border-zinc-100 dark:border-zinc-900 transition-colors duration-300">
+         <section className="py-32 bg-white/5 border-y border-white/10 backdrop-blur-sm">
             <div className="max-w-4xl mx-auto px-6 text-center">
                <ScrollReveal>
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Who We Work With</h2>
-                  <div className="space-y-6 text-xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 text-white">Who We Work With</h2>
+                  <div className="space-y-6 text-xl text-zinc-400 font-light leading-relaxed">
                      <p>
                         Reelin partners with businesses that value long-term thinking — founders and teams who want systems that scale, not tools they outgrow.
                      </p>
@@ -197,27 +198,27 @@ export const About: React.FC = () => {
          {/* Looking Ahead */}
          <section className="py-32 px-6 max-w-4xl mx-auto text-center">
             <ScrollReveal>
-               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Looking Ahead</h2>
-               <p className="text-xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 text-white">Looking Ahead</h2>
+               <p className="text-xl text-zinc-400 font-light leading-relaxed">
                   AI is not static — and neither are the businesses that rely on it. Our role is to design systems prepared for change, built with flexibility, intelligence, and longevity at their core.
                </p>
             </ScrollReveal>
          </section>
 
          {/* Final CTA */}
-         <section className="py-40 px-6 max-w-7xl mx-auto text-center border-t border-zinc-100 dark:border-zinc-900">
+         <section className="py-40 px-6 max-w-7xl mx-auto text-center border-t border-white/10">
             <ScrollReveal>
-               <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-black to-zinc-500 dark:from-white dark:to-zinc-500 overflow-visible py-2">
+               <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60 overflow-visible py-2">
                   Ready to Upgrade?
                </h2>
-               <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 mb-12 max-w-2xl mx-auto font-light">
+               <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto font-light">
                   From tools to systems — AI designed to evolve with your business.
                </p>
                <div className="flex justify-center">
                   <Button
                      size="lg"
                      to="/book"
-                     className="px-12"
+                     className="px-12 bg-white text-black hover:bg-zinc-200"
                   >
                      Book a Strategy Call
                   </Button>

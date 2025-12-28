@@ -47,14 +47,14 @@ export const Services: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-black min-h-screen text-black dark:text-white pt-32 pb-20 transition-colors duration-300">
+    <div className="bg-transparent min-h-screen text-white pt-32 pb-20">
 
       {/* Hero Header */}
       <div className="max-w-7xl mx-auto px-6 mb-24 text-center">
-        <h1 className="text-4xl md:text-7xl font-bold tracking-tighter mb-6 fade-in-up bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-800 to-zinc-500 dark:from-white dark:via-white dark:to-zinc-500 overflow-visible py-2">
+        <h1 className="text-4xl md:text-7xl font-bold tracking-tighter mb-6 fade-in-up bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/60 overflow-visible py-2">
           <span className="inline-block px-1">Integrate Smarter Systems</span>
         </h1>
-        <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto fade-in-up delay-100 transition-colors font-light">
+        <p className="text-xl text-reflect-subtext max-w-2xl mx-auto fade-in-up delay-100 font-light">
           Customized AI Architectures designed to scale with your business.
         </p>
       </div>
@@ -67,43 +67,43 @@ export const Services: React.FC = () => {
             return (
               <ScrollReveal key={index} delay={index * 150} className="h-full">
                 <div
-                  className={`h-full relative flex flex-col p-8 md:p-10 rounded-[2rem] border transition-all duration-500 group
+                  className={`h-full relative flex flex-col p-8 md:p-10 rounded-[2rem] border transition-all duration-500 group backdrop-blur-md
                     ${isFullStack
-                      ? 'bg-zinc-900 text-white border-zinc-800 dark:bg-zinc-900 dark:text-white dark:border-zinc-800 shadow-2xl scale-[1.02] z-10'
-                      : 'bg-zinc-50 dark:bg-zinc-900/40 border-zinc-200 dark:border-white/10 hover:border-zinc-300 dark:hover:border-white/20'
+                      ? 'bg-zinc-900/80 text-white border-white/20 shadow-2xl scale-[1.02] z-10'
+                      : 'bg-white/5 border-white/10 hover:bg-white/10'
                     }
                   `}
                 >
                   {/* Highlight Glow for Full Stack */}
                   {isFullStack && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-[2rem] blur-xl opacity-20 dark:opacity-10 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-[2rem] blur-xl opacity-20 pointer-events-none" />
                   )}
 
                   {/* Level Tag */}
                   <div className={`mb-6 flex justify-between items-center`}>
-                    <span className={`text-xs font-bold uppercase tracking-widest ${isFullStack ? 'text-zinc-400 dark:text-zinc-500' : 'text-zinc-400 dark:text-zinc-500'}`}>
+                    <span className={`text-xs font-bold uppercase tracking-widest text-zinc-500`}>
                       {tier.level}
                     </span>
                   </div>
 
                   {/* Title */}
                   <div className="mb-6">
-                    <h2 className="text-3xl font-bold tracking-tight mb-4">{tier.title}</h2>
-                    <p className={`text-sm leading-relaxed ${isFullStack ? 'text-zinc-300 dark:text-zinc-600' : 'text-zinc-600 dark:text-zinc-300'}`}>
+                    <h2 className="text-3xl font-bold tracking-tight mb-4 text-white">{tier.title}</h2>
+                    <p className={`text-sm leading-relaxed text-zinc-400`}>
                       {tier.description}
                     </p>
                   </div>
 
                   {/* Features List */}
                   <div className="flex-grow mb-8">
-                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 ${isFullStack ? 'text-zinc-500 dark:text-zinc-400' : 'text-zinc-400 dark:text-zinc-500'}`}>Core Capabilities</h4>
+                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 text-zinc-500`}>Core Capabilities</h4>
                     <ul className="space-y-3">
                       {tier.features.map((feature, fIdx) => (
                         <li key={fIdx} className="flex items-start">
-                          <div className={`mt-1 mr-3 flex-shrink-0 ${isFullStack ? 'text-blue-400 dark:text-blue-600' : 'text-blue-600 dark:text-blue-400'}`}>
+                          <div className={`mt-1 mr-3 flex-shrink-0 text-blue-500`}>
                             <Icon name="Check" size={14} />
                           </div>
-                          <span className={`text-sm leading-snug ${isFullStack ? 'text-zinc-300 dark:text-zinc-700' : 'text-zinc-600 dark:text-zinc-300'}`}>
+                          <span className={`text-sm leading-snug text-zinc-300`}>
                             {feature}
                           </span>
                         </li>
@@ -113,15 +113,12 @@ export const Services: React.FC = () => {
 
                   {/* Best For Section */}
                   <div className="mb-8">
-                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 ${isFullStack ? 'text-zinc-500 dark:text-zinc-400' : 'text-zinc-400 dark:text-zinc-500'}`}>Best For</h4>
+                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 text-zinc-500`}>Best For</h4>
                     <div className="flex flex-wrap gap-2">
                       {tier.bestFor.map((item, idx) => (
                         <span
                           key={idx}
-                          className={`text-xs px-2 py-1 rounded-md border ${isFullStack
-                            ? 'bg-white/10 border-white/10 text-zinc-200 dark:bg-black/5 dark:border-black/10 dark:text-zinc-700'
-                            : 'bg-white dark:bg-black border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'
-                            }`}
+                          className={`text-xs px-2 py-1 rounded-md border bg-white/5 border-white/10 text-zinc-400`}
                         >
                           {item}
                         </span>
@@ -130,7 +127,7 @@ export const Services: React.FC = () => {
                   </div>
 
                   {/* Outcome Section (Footer of Card) */}
-                  <div className={`pt-8 mt-auto border-t ${isFullStack ? 'border-white/10 dark:border-black/10' : 'border-zinc-200 dark:border-white/5'}`}>
+                  <div className={`pt-8 mt-auto border-t border-white/10`}>
 
                     <Button
                       to={`/services/${tier.id}`}
@@ -149,12 +146,12 @@ export const Services: React.FC = () => {
       </div>
 
       {/* Footer CTA */}
-      <div className="max-w-4xl mx-auto px-6 mt-32 text-center border-t border-zinc-200 dark:border-zinc-900 pt-20 transition-colors duration-300">
-        <h2 className="text-3xl font-bold mb-6 text-black dark:text-white transition-colors">Lead the transformation.</h2>
-        <p className="text-zinc-600 dark:text-zinc-400 mb-8 transition-colors max-w-xl mx-auto">
+      <div className="max-w-4xl mx-auto px-6 mt-32 text-center border-t border-white/10 pt-20">
+        <h2 className="text-3xl font-bold mb-6 text-white">Lead the transformation.</h2>
+        <p className="text-zinc-400 mb-8 max-w-xl mx-auto">
           The new economy is here. Secure your place at the forefront of the automated revolution.
         </p>
-        <Button variant="ghost" to="/book">Book a Strategy Call</Button>
+        <Button variant="ghost" to="/book" className="text-white hover:text-white hover:bg-white/10">Book a Strategy Call</Button>
       </div>
     </div>
   );

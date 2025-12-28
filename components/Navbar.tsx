@@ -3,13 +3,12 @@ import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { NAV_LINKS, COMPANY_NAME } from '../constants';
 import { Icon } from './ui/Icon';
-import { ThemeToggle } from './ThemeToggle';
+
 import { Logo } from './ui/Logo';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showThemeTip, setShowThemeTip] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -17,21 +16,6 @@ export const Navbar: React.FC = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-
-    // Show theme tooltip briefly on mount if not seen before
-    const hasSeenTip = sessionStorage.getItem('theme_tip_seen');
-    if (!hasSeenTip) {
-      const timer = setTimeout(() => setShowThemeTip(true), 1500);
-      const hideTimer = setTimeout(() => {
-        setShowThemeTip(false);
-        sessionStorage.setItem('theme_tip_seen', 'true');
-      }, 6000);
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(hideTimer);
-      };
-    }
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -42,7 +26,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-reflect-bg/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between pointer-events-auto">
 
           {/* Logo */}
@@ -56,27 +40,17 @@ export const Navbar: React.FC = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-300 cursor-pointer ${location.pathname === link.path ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white'}`}
+                className={`text-sm font-medium transition-colors duration-300 cursor-pointer ${location.pathname === link.path ? 'text-white' : 'text-zinc-400 hover:text-white'}`}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pl-4 border-l border-zinc-200 dark:border-zinc-800 relative">
-              <ThemeToggle />
-
-              {/* Theme Switch Tooltip */}
-              <div className={`absolute top-full right-0 mt-4 w-32 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-xs font-medium py-2 px-3 rounded-lg shadow-xl pointer-events-none transition-all duration-500 transform ${showThemeTip ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
-                <div className="absolute -top-1 right-3 w-2 h-2 bg-zinc-900 dark:bg-zinc-100 rotate-45"></div>
-                Try Light Mode
-              </div>
-            </div>
           </div>
 
           {/* Mobile Toggle */}
           <div className="flex items-center space-x-4 md:hidden z-50 pointer-events-auto">
-            <ThemeToggle />
             <button
-              className="text-black dark:text-white focus:outline-none cursor-pointer"
+              className="text-white focus:outline-none cursor-pointer"
               onClick={() => setIsOpen(!isOpen)}
             >
               <Icon name={isOpen ? "X" : "Menu"} size={24} />
@@ -87,12 +61,12 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay - Portal to body to avoid clipping by parent overflow/filter */}
       {createPortal(
-        <div className={`md:hidden fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-2xl z-[90] flex flex-col items-center justify-start pt-24 pb-10 overflow-y-auto space-y-4 transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none invisible'}`}>
+        <div className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-2xl z-[90] flex flex-col items-center justify-start pt-24 pb-10 overflow-y-auto space-y-4 transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none invisible'}`}>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className="text-2xl font-semibold text-black dark:text-white hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors"
+              className="text-2xl font-semibold text-white hover:text-zinc-400 transition-colors"
             >
               {link.label}
             </Link>

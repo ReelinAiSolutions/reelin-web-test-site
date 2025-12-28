@@ -11,8 +11,19 @@
       darkMode: 'class',
       theme: {
         extend: {
+          colors: {
+            reflect: {
+              bg: '#030014',
+              text: '#FFFFFF',
+              subtext: '#94A3B8',
+              accent: '#7850FF',
+            }
+          },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
+          },
+          backgroundImage: {
+            'radial-glow': 'radial-gradient(circle at center, rgba(120, 80, 255, 0.15) 0%, rgba(3, 0, 20, 0) 50%)',
           }
         }
       }
@@ -169,7 +180,7 @@
   <link rel="stylesheet" href="/index.css">
 </head>
 
-<body class="bg-white text-black dark:bg-black dark:text-white">
+<body class="bg-reflect-bg text-reflect-text selection:bg-reflect-accent selection:text-white">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
