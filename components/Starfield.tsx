@@ -21,10 +21,17 @@ export const Starfield = () => {
         };
 
         setSize();
+
+        // Critical Crash Fix: Disable Starfield logic entirely on mobile to save CPU/GPU
+        if (width < 768) return;
+
         window.addEventListener('resize', setSize);
 
         // Star data
-        const stars = Array.from({ length: 150 }).map(() => ({
+        const isMobile = width < 768;
+        const starCount = isMobile ? 50 : 150;
+
+        const stars = Array.from({ length: starCount }).map(() => ({
             x: Math.random() * width,
             y: Math.random() * height,
             size: Math.random() * 1.5,
