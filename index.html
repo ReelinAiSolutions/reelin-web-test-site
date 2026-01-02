@@ -1,188 +1,135 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reelin | Custom AI Systems & Automation</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="description" content="Engineering bespoke AI infrastructure for local service businesses. We build the custom systems that power your operations." />
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reelin in the Unlimited Nature of AI.</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            reflect: {
-              bg: '#030014',
-              text: '#FFFFFF',
-              subtext: '#94A3B8',
-              accent: '#7850FF',
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              background: '#020617', // Slate 950
+              surface: '#0f172a', // Slate 900
+              primary: '#6366f1', // Indigo 500
+              secondary: '#a855f7', // Purple 500
+              accent: '#06b6d4', // Cyan 500
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'drift': 'drift 20s linear infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              drift: {
+                '0%': { backgroundPosition: '0% 50%' },
+                '100%': { backgroundPosition: '100% 50%' },
+              }
             }
           },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          backgroundImage: {
-            'radial-glow': 'radial-gradient(circle at center, rgba(120, 80, 255, 0.15) 0%, rgba(3, 0, 20, 0) 50%)',
-          }
-        }
+        },
       }
-    }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 300ms;
-    }
-
-    /* Custom scrollbar for Webkit */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #52525b;
-      /* zinc-600 */
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #71717a;
-      /* zinc-500 */
-    }
-
-    .fade-in-up {
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+    </script>
+    <style>
+      body {
+        background-color: #020617;
+        color: #f8fafc;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Inter', sans-serif;
       }
-    }
-
-    .animate-fade-in {
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+      
+      .glass-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      .text-glow {
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+      }
+      
+      .stripe-skew-bg {
+        position: absolute;
+        top: -10%;
+        left: 0;
+        right: 0;
+        height: 120%;
+        transform: skewY(-6deg);
+        background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #020617 60%);
+        z-index: 0;
+        pointer-events: none;
+      }
+      
+      .isometric-container {
+        transform: perspective(1000px) rotateX(10deg) rotateY(-12deg) rotateZ(2deg);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease-out;
+      }
+      
+      .isometric-container:hover {
+        transform: perspective(1000px) rotateX(5deg) rotateY(-6deg) rotateZ(1deg) translateY(-10px);
       }
 
-      to {
-        opacity: 1;
-        transform: scale(1);
+      .isometric-layer {
+         transform: translateZ(20px);
+         box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
       }
-    }
-
-    /* Apple-style smooth easing */
-    .ease-apple {
-      transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .delay-100 {
-      animation-delay: 100ms;
-    }
-
-    .delay-200 {
-      animation-delay: 200ms;
-    }
-
-    .delay-300 {
-      animation-delay: 300ms;
-    }
-
-    .delay-500 {
-      animation-delay: 500ms;
-    }
-
-    @keyframes blob {
-      0% {
-        transform: translate(0px, 0px) scale(1);
+      
+      .isometric-layer-2 {
+         transform: translateZ(50px) translateX(-20px) translateY(20px);
+         box-shadow: -10px 10px 30px rgba(0,0,0,0.4);
       }
-
-      33% {
-        transform: translate(30px, -50px) scale(1.1);
-      }
-
-      66% {
-        transform: translate(-20px, 20px) scale(0.9);
-      }
-
-      100% {
-        transform: translate(0px, 0px) scale(1);
-      }
-    }
-
-    .animate-blob {
-      animation: blob 7s infinite;
-    }
-
-    @keyframes scan {
-      0% {
-        transform: translateY(-100%);
-      }
-
-      100% {
-        transform: translateY(100%);
-      }
-    }
-
-    .animate-scan {
-      animation: scan 3s linear infinite;
-    }
-
-    @keyframes pulse-scale {
-
-      0%,
-      100% {
-        opacity: 0.5;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-
-    .animate-pulse-scale {
-      animation: pulse-scale 2s ease-in-out infinite;
-    }
-  </style>
+    </style>
   <script type="importmap">
 {
   "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0"
   }
 }
 </script>
-  <link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/index.css">
 </head>
-
-<body class="bg-reflect-bg text-reflect-text selection:bg-reflect-accent selection:text-white">
-  <div id="root"></div>
+  <body>
+    <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
-
 </html>

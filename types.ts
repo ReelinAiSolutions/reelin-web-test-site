@@ -1,46 +1,36 @@
-import { LucideIcon } from 'lucide-react';
 
-export interface ServiceItem {
-  id: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  details: string[];
-  iconName: string; 
-}
-
-export interface DetailedCapability {
-  title: string;
+export interface PricingTier {
+  name: string;
+  price: string;
   description: string;
-}
-
-export interface ServiceTier {
-  id: string; // URL slug
-  level: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  longDescription?: string; // For the detail page
   features: string[];
-  detailedCapabilities?: DetailedCapability[]; // For the detail page breakdown
-  bestFor: string[];
-  outcome: string;
-  highlight?: boolean;
+  cta: string;
+  highlighted?: boolean;
 }
 
-export interface NavLink {
+export interface CaseStudy {
+  client: string;
+  industry: string;
+  metric: string;
+  description: string;
+  tags: string[];
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface NavItem {
   label: string;
-  path: string;
+  href: string;
+  items?: { label: string; href: string; description?: string }[];
 }
 
-export interface Testimonial {
-  author: string;
-  company: string;
-  quote: string;
-}
-
-export enum ThemeColor {
-  Black = 'bg-black',
-  DarkGray = 'bg-zinc-900',
-  Acccent = 'text-blue-500'
+export interface ContactFormData {
+  name: string;
+  businessName: string;
+  email: string;
+  phone: string;
+  message: string;
 }

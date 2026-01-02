@@ -1,157 +1,153 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { SERVICE_TIERS } from '../constants';
-import { Icon } from '../components/ui/Icon';
-import { Link } from 'react-router-dom';
-import { Button } from '../components/ui/Button';
-
-// Reuse ScrollReveal logic locally
-const ScrollReveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number }> = ({
-  children,
-  className = "",
-  delay = 0
-}) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transform transition-all duration-1000 ease-apple ${isVisible
-        ? 'opacity-100 translate-y-0'
-        : 'opacity-0 translate-y-12'
-        } ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRightIcon } from '../components/Icons';
 
 export const Services: React.FC = () => {
-  useEffect(() => {
-    document.title = "AI Services & Automation Tiers — Reelin";
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="bg-transparent min-h-screen text-white pt-32 pb-20">
-
-      {/* Hero Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-24 text-center">
-        <h1 className="text-4xl md:text-7xl font-bold tracking-tighter mb-6 fade-in-up bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/60 overflow-visible py-2">
-          <span className="inline-block px-1">Integrate Smarter Systems</span>
-        </h1>
-        <p className="text-xl text-reflect-subtext max-w-2xl mx-auto fade-in-up delay-100 font-light">
-          Customized AI Architectures designed to scale with your business.
-        </p>
-      </div>
-
-      {/* Tiers Grid */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {SERVICE_TIERS.map((tier, index) => {
-            const isFullStack = index === 2;
-            return (
-              <ScrollReveal key={index} delay={index * 150} className="h-full">
-                <div
-                  className={`h-full relative flex flex-col p-8 md:p-10 rounded-[2rem] border transition-all duration-500 group backdrop-blur-md
-                    ${isFullStack
-                      ? 'bg-zinc-900/80 text-white border-white/20 shadow-2xl scale-[1.02] z-10'
-                      : 'bg-white/5 border-white/10 hover:bg-white/10'
-                    }
-                  `}
-                >
-                  {/* Highlight Glow for Full Stack */}
-                  {isFullStack && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-[2rem] blur-xl opacity-20 pointer-events-none" />
-                  )}
-
-                  {/* Level Tag */}
-                  <div className={`mb-6 flex justify-between items-center`}>
-                    <span className={`text-xs font-bold uppercase tracking-widest text-zinc-500`}>
-                      {tier.level}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <div className="mb-6">
-                    <h2 className="text-3xl font-bold tracking-tight mb-4 text-white">{tier.title}</h2>
-                    <p className={`text-sm leading-relaxed text-zinc-400`}>
-                      {tier.description}
-                    </p>
-                  </div>
-
-                  {/* Features List */}
-                  <div className="flex-grow mb-8">
-                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 text-zinc-500`}>Core Capabilities</h4>
-                    <ul className="space-y-3">
-                      {tier.features.map((feature, fIdx) => (
-                        <li key={fIdx} className="flex items-start">
-                          <div className={`mt-1 mr-3 flex-shrink-0 text-blue-500`}>
-                            <Icon name="Check" size={14} />
-                          </div>
-                          <span className={`text-sm leading-snug text-zinc-300`}>
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Best For Section */}
-                  <div className="mb-8">
-                    <h4 className={`text-xs font-bold uppercase tracking-widest mb-4 text-zinc-500`}>Best For</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {tier.bestFor.map((item, idx) => (
-                        <span
-                          key={idx}
-                          className={`text-xs px-2 py-1 rounded-md border bg-white/5 border-white/10 text-zinc-400`}
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Outcome Section (Footer of Card) */}
-                  <div className={`pt-8 mt-auto border-t border-white/10`}>
-
-                    <Button
-                      to={`/services/${tier.id}`}
-                      variant={isFullStack ? 'secondary' : 'primary'}
-                      className="w-full justify-center"
-                    >
-                      {isFullStack ? 'Transform Now' : 'Learn More'}
-                    </Button>
-                  </div>
-
-                </div>
-              </ScrollReveal>
-            );
-          })}
+    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 bg-background relative overflow-hidden">
+      {/* Abstract Backgrounds */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-[40%] left-0 w-[400px] h-[400px] bg-secondary/5 blur-[100px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        
+        {/* Header */}
+        <div className="text-center mb-20">
+          <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6">
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Solutions.</span>
+          </h1>
+          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            We provide complete automation systems. Choose the level that fits your business scale.
+          </p>
         </div>
-      </div>
 
-      {/* Footer CTA */}
-      <div className="max-w-4xl mx-auto px-6 mt-32 text-center border-t border-white/10 pt-20">
-        <h2 className="text-3xl font-bold mb-6 text-white">Lead the transformation.</h2>
-        <p className="text-zinc-400 mb-8 max-w-xl mx-auto">
-          The new economy is here. Secure your place at the forefront of the automated revolution.
-        </p>
-        <Button variant="ghost" to="/book" className="text-white hover:text-white hover:bg-white/10">Book a Strategy Call</Button>
+        {/* Tier Cards Overview */}
+        <div className="grid md:grid-cols-3 gap-8 mb-24">
+          
+          {/* Foundation */}
+          <div 
+            onClick={() => navigate('/solutions/foundation')}
+            className="group relative bg-slate-900/50 border border-white/5 rounded-3xl p-8 hover:bg-slate-900 hover:border-indigo-500/30 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
+          >
+             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-[50px] rounded-full group-hover:bg-indigo-500/20 transition-all"></div>
+             <h2 className="text-2xl font-bold text-white mb-4">Foundation</h2>
+             
+             <p className="text-slate-400 mb-8 flex-grow">
+                Best for simple service businesses that need reliable lead capture, booking, and basic automation.
+             </p>
+
+             <div className="mb-8 pt-6 border-t border-white/5">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Ideal For</p>
+                <ul className="space-y-3">
+                  {[
+                    "Barbershops",
+                    "Nail & Hair Salons",
+                    "Personal Trainers",
+                    "Solo Service Providers"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500/50 group-hover:bg-indigo-500 transition-colors"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+             </div>
+
+             <div className="text-white font-medium flex items-center gap-2 group-hover:gap-4 transition-all mt-auto">
+                Learn More <ArrowRightIcon className="w-4 h-4" />
+             </div>
+          </div>
+
+          {/* Pro */}
+          <div 
+            onClick={() => navigate('/solutions/pro')}
+            className="group relative bg-slate-900/50 border border-white/5 rounded-3xl p-8 hover:bg-slate-900 hover:border-purple-500/30 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
+          >
+             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full group-hover:bg-purple-500/20 transition-all"></div>
+             <h2 className="text-2xl font-bold text-white mb-4">Pro</h2>
+             
+             <p className="text-slate-400 mb-8 flex-grow">
+                Best for established businesses that require structure, reliability, and operational precision.
+             </p>
+
+             <div className="mb-8 pt-6 border-t border-white/5">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Ideal For</p>
+                <ul className="space-y-3">
+                  {[
+                    "Medical & Dental Clinics",
+                    "Fitness Studios",
+                    "Trades Businesses",
+                    "Automotive Shops"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-500/50 group-hover:bg-purple-500 transition-colors"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+             </div>
+
+             <div className="text-white font-medium flex items-center gap-2 group-hover:gap-4 transition-all mt-auto">
+                Learn More <ArrowRightIcon className="w-4 h-4" />
+             </div>
+          </div>
+
+          {/* Enterprise */}
+          <div 
+            onClick={() => navigate('/solutions/enterprise')}
+            className="group relative bg-slate-900/50 border border-white/5 rounded-3xl p-8 hover:bg-slate-900 hover:border-cyan-500/30 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
+          >
+             <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] rounded-full group-hover:bg-cyan-500/20 transition-all"></div>
+             <h2 className="text-2xl font-bold text-white mb-4">Enterprise</h2>
+             
+             <p className="text-slate-400 mb-8 flex-grow">
+                Best for large, multi-location, or data-intensive organizations with complex workflows.
+             </p>
+
+             <div className="mb-8 pt-6 border-t border-white/5">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Ideal For</p>
+                <ul className="space-y-3">
+                  {[
+                    "Large Medical Groups",
+                    "Franchises",
+                    "Multi-location Brands",
+                    "Logistics Companies"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
+                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:bg-cyan-500 transition-colors"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+             </div>
+
+             <div className="text-white font-medium flex items-center gap-2 group-hover:gap-4 transition-all mt-auto">
+                Learn More <ArrowRightIcon className="w-4 h-4" />
+             </div>
+          </div>
+
+        </div>
+
+        {/* CTA */}
+        <div className="glass-card rounded-3xl p-12 text-center border border-white/10 relative overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-accent"></div>
+             <div className="relative z-10">
+                 <h2 className="text-3xl font-bold text-white mb-6">Ready to improve your infrastructure?</h2>
+                 <p className="text-slate-400 max-w-xl mx-auto mb-8">
+                    We start every engagement with a strategy call to identify where time is being wasted and where automation can help.
+                 </p>
+                 <button 
+                    onClick={() => navigate('/book')}
+                    className="px-8 py-4 bg-white text-surface font-bold rounded-full hover:scale-105 transition-transform shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] inline-flex items-center gap-2"
+                 >
+                    Book Strategy Call
+                    <ArrowRightIcon className="w-4 h-4" />
+                 </button>
+             </div>
+        </div>
+
       </div>
     </div>
   );

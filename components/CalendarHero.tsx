@@ -25,7 +25,7 @@ export const CalendarHero: React.FC<{ className?: string }> = ({ className = "" 
                     </div>
 
                     <div className="flex items-center gap-4 text-zinc-400">
-                        <span className="text-sm font-medium text-white/90">April 2024</span>
+                        <span className="text-sm font-medium text-white/90">August 2028</span>
                         <div className="flex gap-2">
                             <div className="p-1 hover:bg-white/5 rounded cursor-pointer"><Icon name="ChevronLeft" size={16} /></div>
                             <div className="p-1 hover:bg-white/5 rounded cursor-pointer"><Icon name="Calendar" size={16} /></div>
@@ -76,7 +76,7 @@ export const CalendarHero: React.FC<{ className?: string }> = ({ className = "" 
                         {/* Date Header */}
                         <div className="flex items-center gap-3 mb-8">
                             <div className="w-1 h-8 bg-violet-500 rounded-full"></div>
-                            <h2 className="text-3xl font-bold text-white">Mon, April 15th, 2024</h2>
+                            <h2 className="text-3xl font-bold text-white">Mon, Aug 28th, 2028</h2>
                         </div>
 
                         {/* Simulated Editor Content */}
@@ -121,13 +121,16 @@ export const CalendarHero: React.FC<{ className?: string }> = ({ className = "" 
                             {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(d => (
                                 <div key={d} className="text-center text-xs text-zinc-600 font-medium">{d}</div>
                             ))}
+                            {/* Empty slot for Monday (Aug 1 2028 is Tuesday) */}
+                            <div></div>
                             {/* Fake Calendar Grid */}
-                            {[...Array(30)].map((_, i) => {
-                                const isToday = i === 14;
+                            {[...Array(31)].map((_, i) => {
+                                const day = i + 1;
+                                const isToday = day === 28;
                                 return (
                                     <div key={i} className={`aspect-square flex items-center justify-center text-xs rounded-full 
                               ${isToday ? 'bg-violet-600 text-white' : 'text-zinc-500 hover:bg-white/5'}`}>
-                                        {i + 1}
+                                        {day}
                                     </div>
                                 )
                             })}

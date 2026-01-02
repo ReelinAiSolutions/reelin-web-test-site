@@ -1,13 +1,21 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, MotionStyle } from 'framer-motion';
 import { Starfield } from './Starfield';
 import { useAnimation } from '../context/AnimationContext';
 
-export const GlobalBackground: React.FC = () => {
+interface Props {
+    style?: MotionStyle;
+    className?: string;
+}
+
+export const GlobalBackground: React.FC<Props> = ({ style, className }) => {
     const { pulse } = useAnimation();
 
     return (
-        <div className="fixed inset-0 z-0 pointer-events-none">
+        <motion.div
+            style={style}
+            className={`fixed inset-0 z-0 pointer-events-none overflow-hidden ${className || ''}`}
+        >
             <motion.div
                 className="absolute inset-0"
                 animate={pulse ? {
@@ -27,6 +35,15 @@ export const GlobalBackground: React.FC = () => {
                     className="w-full h-full object-cover opacity-60 mix-blend-screen"
                     src="https://reflect.app/home/build/q-c3d7becf.webm"
                 />
+
+                {/* SINGULARITY MASK: deeper gradient, no solid edge, blends naturally */}
+                <div
+                    className="absolute inset-0 z-10"
+                    style={{
+                        background: 'radial-gradient(circle at center, #000000 0%, transparent 30%)'
+                    }}
+                />
+
                 <Starfield />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-90"></div>
 
@@ -37,6 +54,6 @@ export const GlobalBackground: React.FC = () => {
                     transition={{ duration: 0.4, ease: "easeInOut" }}
                 />
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
